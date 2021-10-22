@@ -7,7 +7,7 @@
     <title>ACTIWE messaging</title>
     <link
       rel="shortcut icon"
-      href="../Resources/Initials logo light.png"
+      href="../../Resources/Icons_and_logo/Initials logo light.png"
       type="image/x-icon"
     />
     <!--Fonts-->
@@ -25,7 +25,9 @@
       <div class="left-content">
         <nav>
           <a href="index.html" class="initials-logo"
-            ><img src="../../Resources/Icons_and_logo/Initials logo dark.png" alt="ACTIWE"
+            ><img
+              src="../../Resources/Icons_and_logo/Initials logo dark.png"
+              alt="ACTIWE"
           /></a>
           <div class="nav-links">
             <a href="#" class="about-link"
@@ -61,11 +63,26 @@
           <!--description END-->
 
           <div class="language-chars">
-            <img src="../../Resources/Icons_and_logo/Korean character.png" alt="#" />
-            <img src="../../Resources/Icons_and_logo/English character.png" alt="#" />
-            <img src="../../Resources/Icons_and_logo/Japanese character.png" alt="#" />
-            <img src="../../Resources/Icons_and_logo/Hindi character.png" alt="#" />
-            <img src="../../Resources/Icons_and_logo/Chinese character.png" alt="#" />
+            <img
+              src="../../Resources/Icons_and_logo/Korean character.png"
+              alt="#"
+            />
+            <img
+              src="../../Resources/Icons_and_logo/English character.png"
+              alt="#"
+            />
+            <img
+              src="../../Resources/Icons_and_logo/Japanese character.png"
+              alt="#"
+            />
+            <img
+              src="../../Resources/Icons_and_logo/Hindi character.png"
+              alt="#"
+            />
+            <img
+              src="../../Resources/Icons_and_logo/Chinese character.png"
+              alt="#"
+            />
           </div>
         </div>
         <!--info-container END-->
@@ -76,12 +93,18 @@
         <div class="login-card">
           <h2>Log in</h2>
 
-          <form class="login-form" action="#">
-
-            <input type="text" id="name-field" placeholder="Enter your name" required/>
+          <form class="login-form" action="chat.html" method="GET">
+            <input
+              name="name"
+              type="text"
+              id="name-field"
+              placeholder="Enter your name"
+              required
+            />
             <div class="name-field-underline"></div>
 
             <input
+              name="username"
               type="text"
               id="username-field"
               placeholder="Enter username"
@@ -89,7 +112,7 @@
             />
             <div class="username-field-underline"></div>
 
-            <select id="default-language">
+            <select id="default-language" name="language">
               <option value="en" selected>Select a default language</option>
               <option value="en">English</option>
               <option value="hi">हिंदी</option>

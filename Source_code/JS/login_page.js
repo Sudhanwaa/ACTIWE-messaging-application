@@ -1,11 +1,4 @@
 
-//Global user object for one client
-const user = {
-    name:"",
-    username:"",
-    language:""
-};
-
 //Log in page section
 
 /* NAVLINKS */
@@ -30,14 +23,6 @@ github_link.addEventListener('mouseout', function(){
 });
 
 /* NAVLINKS END */
-
-const name_field = document.querySelector("#name-field");
-const username_field = document.querySelector("#username-field");
-const language_field = document.querySelector("#default-language");
-
-const login_button = document.querySelector(".login-button");
-//Add event to transfer 'user' object to main chat page JS file
-login_button.addEventListener('click', function(){});
 
 //Log in page section END
 
