@@ -1,0 +1,18 @@
+{
+  "name": "actiwe_server",
+  "version": "1.0.0",
+  "description": "\"Server for ACTIWE messaging web application\"",
+  "main": "server.js",
+  "scripts": {
+    "startServer": "nodemon server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "socket.io": "^4.3.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.14"
+  }
+}

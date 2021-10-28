@@ -145,7 +145,7 @@ nav{ /*Navbar container*/
     box-shadow: 2px 2px 5px rgba(153, 153, 153, 0.5), -2px -2px 5px rgba(153, 153, 153, 0.5);
 }
 
-.login-card h2{
+.login-card h2{ /*Login text title*/
     background: linear-gradient(to right, #2200FF 20%, white);
     width: 100%;
     text-align: center;
@@ -164,6 +164,7 @@ nav{ /*Navbar container*/
 
 #name-field, #username-field, #default-language{
     display: block;
+    font-family: 'Nunito Sans', sans-serif;
     width: 60%;
     margin: 9vh auto;
     height: 35px;
@@ -175,6 +176,9 @@ nav{ /*Navbar container*/
     outline: none;
     border-radius: 5px;
     transition: text-shadow 0.4s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+#default-language{
+    cursor: pointer;
 }
 #name-field:focus, #username-field:focus, #default-language:focus{
     box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.1);
@@ -232,13 +236,16 @@ nav{ /*Navbar container*/
 /*RIGHT CONTENT STYLING END*/
 
 
-footer{
+footer{ /*Footer container*/
     background-color: black;
     height: 5vh;
     width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
-footer p{
+footer p{ /*footer text*/
+    font-family: 'Nunito Sans', sans-serif;
     color: white;
-    text-align: center;
     font-size: 15px;
 }
