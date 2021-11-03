@@ -60,6 +60,9 @@ translation_toggle.addEventListener('click', () => {
 
 //Messaging JS
 
+const socket = io('http://localhost:3000');
+
+//Sending a message
 const send_button = document.querySelector(".send-button");
 send_button.addEventListener('click', ()=>{
 
@@ -70,9 +73,27 @@ send_button.addEventListener('click', ()=>{
     if(message_text === "") return;
 
     message_box.value = "";
+
+    //Send message to server
+    socket.emit('send-event', 'sent-message', user.username, message_text);
+    //Display message on sender's device
     displayMessage("sent-message", user.username, message_text);
 });
 
+//Receiving a message
+socket.on('receive-event', (message_type,sender,message_text) => {
+    displayMessage(message_type,sender,message_text);
+});
+
+
+/* CHAT AREA JS END */
+
+
+/* ========================================================================================== */
+/* ========================================================================================== */
+
+
+/* FUNCTIONS */
 
 //Display sent/received message event
 function displayMessage(message_type, sender, message_to_display){
@@ -114,9 +135,3 @@ function displayMessage(message_type, sender, message_to_display){
     //Scroll to this latest message
     message_area.scrollTop = message_area.scrollHeight;
 }
-
-/* CHAT AREA JS END */
-
-
-/* ========================================================================================== */
-/* ========================================================================================== */
