@@ -1,10 +1,11 @@
+const socket = io('http://localhost:3000');
 
 //Global object for a single user
 const user = {
     name: "",
     username: "",
     language: "",
-    translation: true,
+    translation: false,
     chatId: ""
 };
 
@@ -58,9 +59,18 @@ translation_toggle.addEventListener('click', () => {
 });
 
 
+//Logout button
+const logout_button = document.querySelector(".logout");
+logout_button.addEventListener('click', () => {
+    socket.disconnect();
+    window.location.href = "../HTML/index.html";
+});
+
 //Messaging JS
 
-const socket = io('http://localhost:3000');
+socket.on('connect', ()=>{
+    user.chatId = socket.id;
+});
 
 //Sending a message
 const send_button = document.querySelector(".send-button");
@@ -75,14 +85,22 @@ send_button.addEventListener('click', ()=>{
     message_box.value = "";
 
     //Send message to server
-    socket.emit('send-event', 'sent-message', user.username, message_text);
+    socket.emit('send-event', 'sent-message', user.username, message_text, user.language);
     //Display message on sender's device
-    displayMessage("sent-message", user.username, message_text);
+    displayMessage("sent-message", user.username, message_text, user.language);
 });
 
 //Receiving a message
-socket.on('receive-event', (message_type,sender,message_text) => {
-    displayMessage(message_type,sender,message_text);
+socket.on('receive-event', (message_type,sender,message_text,lang_code) => {
+    
+    //Translating message
+    if(user.translation){//Translate text before displaying
+        translate_n_display(message_text,user.language,lang_code,message_type,sender);
+    }
+    else{
+        displayMessage(message_type,sender,message_text,lang_code);
+    }
+    
 });
 
 
@@ -95,8 +113,30 @@ socket.on('receive-event', (message_type,sender,message_text) => {
 
 /* FUNCTIONS */
 
+//Translate given text
+async function translate_n_display(msg, target_lang, src_lang, msg_type,msg_sender){
+
+    /* USING Frengly free translation API */
+    let res = await fetch('https://frengly.com/frengly/data/translateREST', {
+         method: "POST",
+         body: JSON.stringify({
+             src: src_lang,
+	         dest: target_lang,
+	         text: msg,
+	         email: 'yash.ukalkar2020@vitbhopal.ac.in',
+	         password: 'randompassword'
+         }),
+         headers: { "Content-Type": "application/json" }
+    })
+    
+    let jsonRes = await res.json();
+    let message_text = jsonRes.translation;
+    displayMessage(msg_type,msg_sender,message_text);
+    
+}
+
 //Display sent/received message event
-function displayMessage(message_type, sender, message_to_display){
+function displayMessage(message_type, sender, message_to_display, lang_code){
 
     //Message view area container
     const message_area = document.querySelector(".chat-view-area");
