@@ -98,7 +98,7 @@ socket.on('receive-event', (message_type,sender,message_text,lang_code) => {
         translate_n_display(message_text,user.language,lang_code,message_type,sender);
     }
     else{
-        displayMessage(message_type,sender,message_text,lang_code);
+        displayMessage(message_type,sender,message_text);
     }
     
 });
@@ -117,26 +117,70 @@ socket.on('receive-event', (message_type,sender,message_text,lang_code) => {
 async function translate_n_display(msg, target_lang, src_lang, msg_type,msg_sender){
 
     /* USING Frengly free translation API */
-    let res = await fetch('https://frengly.com/frengly/data/translateREST', {
-         method: "POST",
-         body: JSON.stringify({
-             src: src_lang,
-	         dest: target_lang,
-	         text: msg,
-	         email: 'yash.ukalkar2020@vitbhopal.ac.in',
-	         password: 'randompassword'
-         }),
-         headers: { "Content-Type": "application/json" }
-    })
+    // let res = await fetch('https://frengly.com/frengly/data/translateREST', {
+    //      method: "POST",
+    //      body: JSON.stringify({
+    //          src: src_lang,
+	//          dest: target_lang,
+	//          text: msg,
+	//          email: 'yash.ukalkar2020@vitbhopal.ac.in',
+	//          password: 'randompassword'
+    //      }),
+    //      headers: { "Content-Type": "application/json" }
+    // })
     
-    let jsonRes = await res.json();
-    let message_text = jsonRes.translation;
-    displayMessage(msg_type,msg_sender,message_text);
+    // let jsonRes = await res.json();
+    // let message_text = jsonRes.translation;
+    // displayMessage(msg_type,msg_sender,message_text);
+
+
+    /* Using MICROSOFT translation API using RapidApi */
+    const data = JSON.stringify([
+        {
+            "Text": msg
+        }
+    ]);
     
+    const xhr = new XMLHttpRequest();
+    xhr.withCredentials = true;
+    
+    xhr.addEventListener("readystatechange", function () {
+        if (this.readyState === this.DONE) {
+            /* EXAMPLE RESPONSE
+               [
+                   0:{
+                       "detectedLanguage":{...}
+                       "translations":[
+                           0:{
+                               "text":""
+                               "transliteration":{...}
+                               "to":""
+                               "alignment":{...}
+                               "sentLen":{...}
+                           }
+                       ]
+                   }
+               ]
+            */
+           
+            let jsonRes = JSON.parse(this.responseText);
+            let translated_msg = jsonRes[0].translations[0].text;
+
+            displayMessage(msg_type,msg_sender,translated_msg);
+        }
+    });
+    
+    xhr.open("POST", `https://microsoft-translator-text.p.rapidapi.com/translate?to=${target_lang}&api-version=3.0&from=${src_lang}&profanityAction=NoAction&textType=plain`,false);
+    xhr.setRequestHeader("content-type", "application/json");
+    xhr.setRequestHeader("x-rapidapi-host", "microsoft-translator-text.p.rapidapi.com");
+    xhr.setRequestHeader("x-rapidapi-key", "3bb52cc4d0msh93a8d91074f2cbep166adfjsnd84338a335e4");
+    
+    xhr.send(data);
+
 }
 
 //Display sent/received message event
-function displayMessage(message_type, sender, message_to_display, lang_code){
+function displayMessage(message_type, sender, message_to_display){
 
     //Message view area container
     const message_area = document.querySelector(".chat-view-area");
